@@ -9,7 +9,7 @@
 
 ## نشر المشروع على Netlify
 
-1. قم بزيارة [Netlify](https://www.netlify.com/).
+1. قم بزيارة xx
 2. أنشئ حساباً أو سجل الدخول.
 3. اضغط على "Add new site" ثم "Deploy manually".
 4. قم بسحب وإفلات ملف `index.html` في منطقة الرفع.
