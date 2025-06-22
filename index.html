@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>هيئة الهلال الأحمر السعودي , المسعف الذكي</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Cairo', sans-serif;
+      background-color: #fff;
+      color: #1a1a1a;
+    }
+    /* Scrollbar for chat messages */
+    .chat-messages {
+      scrollbar-width: thin;
+      scrollbar-color: #e53e3e #f9f9f9;
+    }
+    .chat-messages::-webkit-scrollbar {
+      width: 8px;
+    }
+    .chat-messages::-webkit-scrollbar-track {
+      background: #f9f9f9;
+    }
+    .chat-messages::-webkit-scrollbar-thumb {
+      background-color: #e53e3e;
+      border-radius: 10px;
+      border: 2px solid #f9f9f9;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+  <!-- Header -->
+  <header class="bg-white shadow-md border-b border-gray-200">
+    <div class="container mx-auto flex items-center justify-between p-4">
+      <div class="flex items-center space-x-4 space-x-reverse">
+        <img src="https://www.srca.org.sa/media/hukm0vl1/logo.png" alt="شعار هيئة الهلال الأحمر السعودي" class="h-12" />
+        <h1 class="text-xl font-bold text-red-700">هيئة الهلال الأحمر السعودي , المسعف الذكي</h1>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main content -->
+  <main class="flex-grow container mx-auto p-4 flex flex-col max-w-3xl">
+    <section class="flex flex-col bg-gray-50 rounded-lg shadow-md p-4 h-[600px]">
+      <h2 class="text-lg font-semibold mb-4 text-red-700">المسعف الذكي من تصميم المسعف عادل الظفيري</h2>
+      <div id="chat" class="flex-grow overflow-y-auto chat-messages space-y-4 p-4 bg-white rounded border border-gray-300 shadow-sm min-h-[400px] max-h-[600px]">
+        <!-- Messages will appear here -->
+      </div>
+      <form id="chat-form" class="mt-4 flex space-x-2 space-x-reverse">
+        <input
+          type="text"
+          id="user-input"
+          placeholder="اكتب سؤالك هنا..."
+          class="flex-grow border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-red-600"
+          autocomplete="off"
+          required
+        />
+        <button
+          type="submit"
+          class="bg-red-700 text-white px-6 py-2 rounded hover:bg-red-800 transition"
+        >
+          إرسال
+        </button>
+      </form>
+      <p class="mt-2 text-sm text-gray-600">
+        من الضروري تأكيد هذه المعلومات بواسطة الطبيب في غرفة العمليات.
+      </p>
+    </section>
+  </main>
+
+    <script>
+    const chat = document.getElementById('chat');
+    const chatForm = document.getElementById('chat-form');
+    const userInput = document.getElementById('user-input');
+
+    const GEMNI_API_KEY = 'AIzaSyAaxfdpiwLBfn_8Eg9y9sch6ccXtW_NX8E';
+
+    function appendMessage(text, sender = 'user') {
+      const messageDiv = document.createElement('div');
+      messageDiv.classList.add(
+        'p-3',
+        'rounded',
+        sender === 'user' ? 'bg-red-100' : 'bg-gray-200',
+        sender === 'user' ? 'text-right' : 'text-left'
+      );
+      messageDiv.style.lineHeight = '1.5';
+      messageDiv.textContent = text;
+      chat.appendChild(messageDiv);
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    async function sendToGemni(message) {
+      // This is a placeholder for the actual API call to Gemni.
+      // Since no official Gemni API details are provided, this simulates a response.
+      // Replace this with actual API call when details are available.
+
+      // Example fetch call (commented out):
+      /*
+      const response = await fetch('https://api.gemni.example.com/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${GEMNI_API_KEY}`
+        },
+        body: JSON.stringify({ message })
+      });
+      const data = await response.json();
+      return data.reply;
+      */
+
+      // Simulated response for demo:
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve("هذه إجابة تجريبية من المسعف الذكي. من الضروري تأكيد هذه المعلومات بواسطة الطبيب في غرفة العمليات.");
+        }, 1500);
+      });
+    }
+
+    // إضافة رسالة ترحيب أولية عند تحميل الصفحة
+    window.addEventListener('DOMContentLoaded', () => {
+      appendMessage('مرحبًا بك في المسعف الذكي. كيف يمكنني مساعدتك اليوم؟', 'bot');
+    });
+
+    chatForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const message = userInput.value.trim();
+      if (!message) return;
+      appendMessage(message, 'user');
+      userInput.value = '';
+      appendMessage('... جاري الرد', 'bot');
+      const botResponse = await sendToGemni(message);
+      // Remove the "جاري الرد" message
+      chat.lastChild.remove();
+      appendMessage(botResponse, 'bot');
+    });
+  </script>
+</body>
+</html>
